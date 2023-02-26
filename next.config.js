@@ -1,6 +1,12 @@
+const { i18n } = require('./next-i18next.config');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-}
+  i18n,
+  images: {
+    domains: [process.env.AWS_IMAGE_SERVICE_URL],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
