@@ -11,7 +11,11 @@ export function CollectionTile({ title, href, onClick, image }: CollectionTilePr
   const handleClick = () => onClick(href);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full" onClick={handleClick}>
+    <div
+      className="flex flex-col items-center justify-center w-full h-full"
+      onClick={handleClick}
+      role="presentation"
+    >
       <Image
         src={image}
         width={150}
