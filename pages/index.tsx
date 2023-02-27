@@ -5,6 +5,7 @@ import { GetStaticProps } from 'next';
 import React from 'react';
 import { extractLocale } from 'lib/translation-helpers';
 import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
 
 export default function Home() {
   const { t } = useTranslation('common');
@@ -17,11 +18,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div>
-          <p className="font-light text-5xl uppercase">{t('home-header')}</p>
-        </div>
-      </main>
+      <Image
+        src="https://adalowkis-artwork.s3.eu-central-1.amazonaws.com/large_IMG_4029_f19aaf5a5b.jpeg"
+        alt="welcome"
+      />
     </>
   );
 }

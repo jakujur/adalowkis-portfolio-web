@@ -1,9 +1,11 @@
+import { Image } from '@/types/image';
+
 export interface Artwork {
   id: string;
   description: string;
   title: string;
   image: {
-    urlSmall: string;
-    urlLarge: string;
+    small: Image;
+    large: Image;
   };
 }
