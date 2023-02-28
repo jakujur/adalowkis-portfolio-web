@@ -1,13 +1,15 @@
 import { Image } from '@/types/image';
 
+export interface ImageObject {
+  small: Image;
+  large: Image;
+}
+
 export interface Artwork {
   id: string;
   description: string;
   title: string;
-  image: {
-    small: Image;
-    large: Image;
-  };
+  image: ImageObject;
 }
 
 export interface MediaObject<T> {

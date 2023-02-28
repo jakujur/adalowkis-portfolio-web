@@ -1,11 +1,10 @@
 import { Portal } from '@/components/portal';
 import Image from 'next/image';
-import { Image as ImageType } from '@/types/image';
 import { RefObject, useRef, MouseEvent } from 'react';
-import { MediaObject } from '@/types/artwork';
+import { Artwork } from '@/types/artwork';
 
 interface ImagePreviewProps {
-  image?: MediaObject<ImageType>;
+  image?: Artwork;
   visible: boolean;
   onClickOutside: () => void;
   onNextClick?: () => void;
@@ -53,9 +52,10 @@ export function ImagePreview({
         <div>
           <Image
             ref={imageRef}
-            src={image.mediaFile.url}
-            width={image.mediaFile.width}
-            height={image.mediaFile.height}
+            src={image.image.large.url}
+            blurDataURL={image.image.small.url}
+            width={image.image.large.width}
+            height={image.image.large.height}
             alt={image.title}
             sizes="100vw"
             className="border-8 border-white shadow-2xl"

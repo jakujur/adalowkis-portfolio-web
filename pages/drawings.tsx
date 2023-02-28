@@ -1,13 +1,12 @@
 import { extractLocale } from '@/lib/translation-helpers';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
-import { Artwork, MediaObject } from '@/types/artwork';
+import { Artwork } from '@/types/artwork';
 import { ImageTile } from '@/components/image-tile';
 import { authAxios } from '@/lib/api-helpers';
 import { API_URL } from '@/consts/env-variables';
-import { mapArtworkResponseToArtwork, mapArtworkToImageMediaObject } from '@/lib/mappers';
+import { mapArtworkResponseToArtwork } from '@/lib/mappers';
 import { useState } from 'react';
-import { Image as ImageType } from '@/types/image';
 
 import { ImagePreview } from '@/components/image-preview';
 
@@ -16,28 +15,27 @@ interface DrawingsPageProps {
 }
 
 export default function DrawingsPage({ drawings }: DrawingsPageProps) {
-  const [image, setImage] = useState<MediaObject<ImageType>>();
+  const [image, setImage] = useState<Artwork>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
 
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
-  const handleShowPreview = (img: MediaObject<ImageType>) => {
+
+  const handleShowPreview = (img: Artwork) => {
     setImage(img);
     togglePreview();
   };
 
   const handleNextClick = () => {
-    const index = drawings.findIndex((drawing) => drawing.image.large.url === image?.mediaFile.url);
+    const index = drawings.findIndex(({ id }) => id === image?.id);
     const nextIndex = index + 1;
-    const nextImage = mapArtworkToImageMediaObject(drawings[nextIndex] ?? drawings[0]);
+    const nextImage = drawings[nextIndex] ?? drawings[0];
     setImage(nextImage);
   };
 
   const handlePrevClick = () => {
-    const index = drawings.findIndex((drawing) => drawing.image.large.url === image?.mediaFile.url);
+    const index = drawings.findIndex(({ id }) => id === image?.id);
     const prevIndex = index - 1;
-    const prevImage = mapArtworkToImageMediaObject(
-      drawings[prevIndex] ?? drawings[drawings.length - 1],
-    );
+    const prevImage = drawings[prevIndex] ?? drawings[drawings.length - 1];
     setImage(prevImage);
   };
 
@@ -45,14 +43,7 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
     <>
       <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
         {drawings.map((drawing) => (
-          <ImageTile
-            key={drawing.id}
-            description={drawing.description}
-            previewUrl={drawing.image.small.url}
-            title={drawing.title}
-            image={drawing.image.large}
-            onClick={handleShowPreview}
-          />
+          <ImageTile key={drawing.id} image={drawing} onClick={handleShowPreview} />
         ))}
       </ul>
       <ImagePreview
