@@ -4,13 +4,16 @@ import { GetStaticProps } from 'next';
 import { authAxios } from '@/lib/api-helpers';
 import { API_URL } from '@/consts/env-variables';
 import { mapCollectionResponseToCollection } from '@/lib/mappers';
+import { Collection } from '@/types/collection';
 
 interface OthersPageProps {
-  collections: any;
+  collections: Collection[];
 }
 
 export default function OthersPage({ collections }: OthersPageProps) {
-  return collections.map((collection: any) => <div key={collection.id}>{collection?.name}</div>);
+  return collections.map((collection: Collection) => (
+    <div key={collection.id}>{collection?.name}</div>
+  ));
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {

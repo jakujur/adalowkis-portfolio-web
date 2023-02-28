@@ -1,7 +1,8 @@
 import { Artwork, MediaObject } from '@/types/artwork';
 import { Image } from '@/types/image';
+import { Collection } from '@/types/collection';
 
-export const mapArtworkResponseToArtwork = (artworks: any): Artwork =>
+export const mapArtworkResponseToArtwork = (artworks: any): Artwork[] =>
   artworks?.map((artwork: any) => ({
     id: artwork.id,
     description: artwork.attributes?.description ?? null,
@@ -20,13 +21,12 @@ export const mapArtworkResponseToArtwork = (artworks: any): Artwork =>
     },
   }));
 
-export const mapCollectionResponseToCollection = (collections: any): any =>
+export const mapCollectionResponseToCollection = (collections: any): Collection[] =>
   collections.map((collection: any) => ({
     id: collection.id ?? null,
     name: collection.attributes?.name ?? null,
     description: collection.attributes?.description ?? null,
     coverImage: collection.attributes?.cover_image?.data?.attributes?.formats?.small?.url ?? null,
-    artworks: mapArtworkResponseToArtwork(collection.attributes?.artworks) ?? null,
   }));
 
 export const mapArtworkToImageMediaObject = (artwork: Artwork): MediaObject<Image> => ({
