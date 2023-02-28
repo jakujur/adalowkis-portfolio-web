@@ -1,11 +1,11 @@
 import { extractLocale } from '@/lib/translation-helpers';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
-import { Artwork } from '@/types/artwork';
+import { Artwork, MediaObject } from '@/types/artwork';
 import { ImageTile } from '@/components/image-tile';
 import { authAxios } from '@/lib/api-helpers';
 import { API_URL } from '@/consts/env-variables';
-import { mapArtworkResponseToArtwork } from '@/lib/mappers';
+import { mapArtworkResponseToArtwork, mapArtworkToImageMediaObject } from '@/lib/mappers';
 import { useState } from 'react';
 import { Image as ImageType } from '@/types/image';
 
@@ -16,33 +16,34 @@ interface DrawingsPageProps {
 }
 
 export default function DrawingsPage({ drawings }: DrawingsPageProps) {
-  const [image, setImage] = useState<ImageType>();
+  const [image, setImage] = useState<MediaObject<ImageType>>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
 
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
-  const handleShowPreview = (img: ImageType) => {
+  const handleShowPreview = (img: MediaObject<ImageType>) => {
     setImage(img);
     togglePreview();
   };
 
   const handleNextClick = () => {
-    const index = drawings.findIndex((drawing) => drawing.image.large.url === image?.url);
+    const index = drawings.findIndex((drawing) => drawing.image.large.url === image?.mediaFile.url);
     const nextIndex = index + 1;
-    const nextImage = drawings[nextIndex]?.image?.large ?? drawings[0].image.large;
+    const nextImage = mapArtworkToImageMediaObject(drawings[nextIndex] ?? drawings[0]);
     setImage(nextImage);
   };
 
   const handlePrevClick = () => {
-    const index = drawings.findIndex((drawing) => drawing.image.large.url === image?.url);
+    const index = drawings.findIndex((drawing) => drawing.image.large.url === image?.mediaFile.url);
     const prevIndex = index - 1;
-    const prevImage =
-      drawings[prevIndex]?.image?.large ?? drawings[drawings.length - 1].image.large;
+    const prevImage = mapArtworkToImageMediaObject(
+      drawings[prevIndex] ?? drawings[drawings.length - 1],
+    );
     setImage(prevImage);
   };
 
   return (
     <>
-      <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(224px,max-content))] lg:grid-cols-[repeat(auto-fit,minmax(288px,max-content))]">
+      <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
         {drawings.map((drawing) => (
           <ImageTile
             key={drawing.id}

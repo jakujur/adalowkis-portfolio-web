@@ -1,10 +1,11 @@
 import { Image as ImageType } from '@/types/image';
 import Image from 'next/image';
+import { MediaObject } from '@/types/artwork';
 
 interface ImageTileProps {
   image: ImageType;
   previewUrl: string;
-  onClick: (href: ImageType) => void;
+  onClick: (args: MediaObject<ImageType>) => void;
   title: string;
   description: string;
   priority?: boolean;
@@ -18,14 +19,10 @@ export function ImageTile({
   previewUrl,
   priority,
 }: ImageTileProps) {
-  const handleClick = () => onClick(image);
+  const handleClick = () => onClick({ mediaFile: image, title, description });
 
   return (
-    <li
-      className="group relative w-full aspect-square sm:w-56 sm:h-56 lg:w-72 lg:h-72"
-      onClick={handleClick}
-      role="presentation"
-    >
+    <li className="group relative w-full aspect-square" onClick={handleClick} role="presentation">
       <Image
         src={previewUrl}
         alt={title}

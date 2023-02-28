@@ -9,3 +9,9 @@ export interface Artwork {
     large: Image;
   };
 }
+
+export interface MediaObject<T> {
+  title: string;
+  description: string;
+  mediaFile: T;
+}

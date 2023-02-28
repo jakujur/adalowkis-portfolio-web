@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { useHover } from '@/hooks/use-hover';
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   active?: boolean;
 }
 

@@ -1,7 +1,8 @@
-import { Artwork } from '@/types/artwork';
+import { Artwork, MediaObject } from '@/types/artwork';
+import { Image } from '@/types/image';
 
 export const mapArtworkResponseToArtwork = (artworks: any): Artwork =>
-  artworks.map((artwork: any) => ({
+  artworks?.map((artwork: any) => ({
     id: artwork.id,
     description: artwork.attributes?.description ?? null,
     title: artwork.attributes?.name ?? null,
@@ -21,8 +22,19 @@ export const mapArtworkResponseToArtwork = (artworks: any): Artwork =>
 
 export const mapCollectionResponseToCollection = (collections: any): any =>
   collections.map((collection: any) => ({
-    id: collection.id,
-    name: collection.attributes?.name,
-    description: collection.attributes?.description,
-    artworks: mapArtworkResponseToArtwork(collection.attributes?.artworks),
+    id: collection.id ?? null,
+    name: collection.attributes?.name ?? null,
+    description: collection.attributes?.description ?? null,
+    coverImage: collection.attributes?.cover_image?.data?.attributes?.formats?.small?.url ?? null,
+    artworks: mapArtworkResponseToArtwork(collection.attributes?.artworks) ?? null,
   }));
+
+export const mapArtworkToImageMediaObject = (artwork: Artwork): MediaObject<Image> => ({
+  title: artwork.title ?? null,
+  description: artwork.description ?? null,
+  mediaFile: {
+    url: artwork.image.large.url ?? null,
+    height: artwork.image.large.height ?? null,
+    width: artwork.image.large.width ?? null,
+  },
+});

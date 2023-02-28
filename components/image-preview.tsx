@@ -2,9 +2,10 @@ import { Portal } from '@/components/portal';
 import Image from 'next/image';
 import { Image as ImageType } from '@/types/image';
 import { RefObject, useRef, MouseEvent } from 'react';
+import { MediaObject } from '@/types/artwork';
 
 interface ImagePreviewProps {
-  image?: ImageType;
+  image?: MediaObject<ImageType>;
   visible: boolean;
   onClickOutside: () => void;
   onNextClick?: () => void;
@@ -49,15 +50,20 @@ export function ImagePreview({
         <div className="p-4 border-b-4 border-l-4  border-black inline-block rotate-45" />
       </div>
       {image && (
-        <Image
-          ref={imageRef}
-          src={image.url}
-          width={image.width}
-          height={image.height}
-          alt="Image view"
-          sizes="100vw"
-          className="border-8 border-white shadow-2xl"
-        />
+        <div>
+          <Image
+            ref={imageRef}
+            src={image.mediaFile.url}
+            width={image.mediaFile.width}
+            height={image.mediaFile.height}
+            alt={image.title}
+            sizes="100vw"
+            className="border-8 border-white shadow-2xl"
+          />
+          <p className="absolute bottom-5 left-0 right-0 mx-auto px-3 py-1.5 font-extralight text-sm text-white text-center bg-black w-max">
+            {image.title} / {image.description}
+          </p>
+        </div>
       )}
       <div
         ref={nextButtonRef}
