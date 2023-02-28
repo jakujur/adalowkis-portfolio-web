@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useCallbackRef } from '@/hooks/useCallbackRef';
+import { useCallbackRef } from '@/hooks/use-callback-ref';
 
 export const useHover = <T extends HTMLElement>() => {
   const { ref: refCurrent, handleRef: ref } = useCallbackRef<T>();
