@@ -42,7 +42,7 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
 
   return (
     <>
-      <ul className="grid grid-cols-[repeat(auto-fit,minmax(288px,max-content))] gap-4 justify-center p-[initial]">
+      <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(224px,max-content))] lg:grid-cols-[repeat(auto-fit,minmax(288px,max-content))]">
         {drawings.map((drawing) => (
           <ImageTile
             key={drawing.id}

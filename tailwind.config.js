@@ -7,6 +7,12 @@ module.exports = {
     './features/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    screens: {
+      xs: '460px',
+      sm: '770px',
+      md: '1138px',
+      lg: '1394px',
+    },
     extend: {
       maxWidth: {
         '1/2': '50%',

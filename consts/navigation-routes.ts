@@ -1,6 +1,8 @@
+type RouteNames = 'paintings' | 'drawings' | 'other' | 'bio' | 'contact';
+
 interface NavigationRoute {
   path: string;
-  name: string;
+  name: RouteNames;
 }
 
 export const NAVIGATION_ROUTES: NavigationRoute[] = [
@@ -10,3 +12,5 @@ export const NAVIGATION_ROUTES: NavigationRoute[] = [
   { path: '/bio', name: 'bio' },
   { path: '/contact', name: 'contact' },
 ];
+
+export type NavigationRouteName = (typeof NAVIGATION_ROUTES)[number]['name'];

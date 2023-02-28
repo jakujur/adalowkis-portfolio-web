@@ -40,14 +40,14 @@ export function ImagePreview({
 
   return (
     <Portal open={visible} onClickOutside={handleOutsideClick}>
-      <p
+      <div
         ref={previousButtonRef}
         onClick={onPreviousClick}
         className="p-4 md:p-16 cursor-pointer"
         role="presentation"
       >
         <div className="p-4 border-b-4 border-l-4  border-black inline-block rotate-45" />
-      </p>
+      </div>
       {image && (
         <Image
           ref={imageRef}
@@ -59,14 +59,14 @@ export function ImagePreview({
           className="border-8 border-white shadow-2xl"
         />
       )}
-      <p
+      <div
         ref={nextButtonRef}
         onClick={onNextClick}
         className="p-4 md:p-16 cursor-pointer"
         role="presentation"
       >
         <div className="p-4 border-t-4 border-r-4  border-black inline-block rotate-45" />
-      </p>
+      </div>
     </Portal>
   );
 }
