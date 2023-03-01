@@ -11,12 +11,12 @@ interface LayoutProps {
 
 export function Layout({ children, activeRoute }: PropsWithChildren<LayoutProps>) {
   const { t } = useTranslation('common');
-  const locationString = activeRoute && ` - ${t(activeRoute)}`;
+  const locationString = `Ada Lowkis ${activeRoute && ` - ${t(activeRoute)}`}`;
 
   return (
     <>
       <Head>
-        <title>Ada Lowkis{locationString}</title>
+        <title>{locationString}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/icons/nav-icon.ico" />
       </Head>

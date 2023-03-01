@@ -17,15 +17,18 @@ interface DrawingsPageProps {
 export default function DrawingsPage({ drawings }: DrawingsPageProps) {
   const [image, setImage] = useState<Artwork>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
 
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
 
   const handleShowPreview = (img: Artwork) => {
+    setImageLoading(true);
     setImage(img);
     togglePreview();
   };
 
   const handleNextClick = () => {
+    setImageLoading(true);
     const index = drawings.findIndex(({ id }) => id === image?.id);
     const nextIndex = index + 1;
     const nextImage = drawings[nextIndex] ?? drawings[0];
@@ -33,6 +36,7 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
   };
 
   const handlePrevClick = () => {
+    setImageLoading(true);
     const index = drawings.findIndex(({ id }) => id === image?.id);
     const prevIndex = index - 1;
     const prevImage = drawings[prevIndex] ?? drawings[drawings.length - 1];
@@ -52,6 +56,8 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
         onClickOutside={togglePreview}
         onNextClick={handleNextClick}
         onPreviousClick={handlePrevClick}
+        onLoadingComplete={() => setImageLoading(false)}
+        imageLoading={imageLoading}
       />
     </>
   );

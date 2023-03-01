@@ -9,6 +9,8 @@ interface ImagePreviewProps {
   onClickOutside: () => void;
   onNextClick?: () => void;
   onPreviousClick?: () => void;
+  onLoadingComplete?: () => void;
+  imageLoading?: boolean;
 }
 
 const shouldHandleClickOutsideElement = (
@@ -22,6 +24,8 @@ export function ImagePreview({
   onClickOutside,
   onPreviousClick,
   onNextClick,
+  onLoadingComplete,
+  imageLoading,
 }: ImagePreviewProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const previousButtonRef = useRef<HTMLDivElement>(null);
@@ -48,17 +52,21 @@ export function ImagePreview({
       >
         <div className="p-4 border-b-4 border-l-4  border-black inline-block rotate-45" />
       </div>
-      {image && (
+      {image?.image.large.url && (
         <div>
           <Image
             ref={imageRef}
             src={image.image.large.url}
+            placeholder="blur"
             blurDataURL={image.image.small.url}
             width={image.image.large.width}
             height={image.image.large.height}
             alt={image.title}
-            sizes="100vw"
-            className="border-8 border-white shadow-2xl"
+            sizes="(max-width: 768px) 50vw,
+                (max-width: 1200px) 75vw,
+                100vw"
+            onLoadingComplete={onLoadingComplete}
+            className={`border-8 border-white shadow-2xl ${imageLoading && 'invisible'}`}
           />
           <p className="absolute bottom-5 left-0 right-0 mx-auto px-3 py-1.5 font-extralight text-sm text-white text-center bg-black w-max">
             {image.title} / {image.description}
