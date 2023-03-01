@@ -1,7 +1,9 @@
 import { Portal } from '@/components/portal';
 import Image from 'next/image';
-import { RefObject, useRef, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { Artwork } from '@/types/artwork';
+import { useImagePreviewScale } from '@/hooks/use-preview-scale';
+import { useCallbackRef } from '@/hooks/use-callback-ref';
 
 interface ImagePreviewProps {
   image?: Artwork;
@@ -13,10 +15,8 @@ interface ImagePreviewProps {
   imageLoading?: boolean;
 }
 
-const shouldHandleClickOutsideElement = (
-  event: MouseEvent<HTMLElement>,
-  ref: RefObject<HTMLElement>,
-) => ref?.current && !ref.current.contains(event.target as HTMLElement);
+const shouldHandleClickOutsideElement = (event: MouseEvent<HTMLElement>, ref?: HTMLElement) =>
+  ref && !ref.contains(event.target as HTMLElement);
 
 export function ImagePreview({
   image,
@@ -27,15 +27,18 @@ export function ImagePreview({
   onLoadingComplete,
   imageLoading,
 }: ImagePreviewProps) {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const previousButtonRef = useRef<HTMLDivElement>(null);
-  const nextButtonRef = useRef<HTMLDivElement>(null);
+  const { ref: imageRef, handleRef: handleImageRef } = useCallbackRef<HTMLImageElement>();
+  const { ref: previousButtonRef, handleRef: handlePreviousButtonRef } =
+    useCallbackRef<HTMLImageElement>();
+  const { ref: nextButtonRef, handleRef: handleNextButtonRef } = useCallbackRef<HTMLImageElement>();
+  const { scale: imageScale } = useImagePreviewScale(imageRef);
 
   const handleOutsideClick = (event: MouseEvent<HTMLElement>) => {
     const shouldPerformAction =
       shouldHandleClickOutsideElement(event, imageRef) &&
       shouldHandleClickOutsideElement(event, previousButtonRef) &&
       shouldHandleClickOutsideElement(event, nextButtonRef);
+
     if (shouldPerformAction) {
       return onClickOutside();
     }
@@ -45,7 +48,7 @@ export function ImagePreview({
   return (
     <Portal open={visible} onClickOutside={handleOutsideClick}>
       <div
-        ref={previousButtonRef}
+        ref={handlePreviousButtonRef}
         onClick={onPreviousClick}
         className="p-4 md:p-16 cursor-pointer"
         role="presentation"
@@ -55,7 +58,7 @@ export function ImagePreview({
       {image?.image.large.url && (
         <div>
           <Image
-            ref={imageRef}
+            ref={handleImageRef}
             src={image.image.large.url}
             placeholder="blur"
             blurDataURL={image.image.small.url}
@@ -67,6 +70,7 @@ export function ImagePreview({
                 100vw"
             onLoadingComplete={onLoadingComplete}
             className={`border-8 border-white shadow-2xl ${imageLoading && 'invisible'}`}
+            style={{ transform: `scale(${imageScale})` }}
           />
           <p className="absolute bottom-5 left-0 right-0 mx-auto px-3 py-1.5 font-extralight text-sm text-white text-center bg-black w-max">
             {image.title} / {image.description}
@@ -74,7 +78,7 @@ export function ImagePreview({
         </div>
       )}
       <div
-        ref={nextButtonRef}
+        ref={handleNextButtonRef}
         onClick={onNextClick}
         className="p-4 md:p-16 cursor-pointer"
         role="presentation"
