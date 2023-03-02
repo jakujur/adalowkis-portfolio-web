@@ -26,8 +26,8 @@ export function ImageTile({ image, onClick, priority }: ImageTileProps) {
       )}
       <div className="p-2 absolute top-0 bottom-0 left-0 right-0 h-full w-full bg-black bg-opacity-60 cursor-pointer invisible group-hover:visible">
         <div className="p-4 h-full border-2 border-white text-white text-xl">
-          <h2 className="text-2xl font-bold">{image.title}</h2>
-          <p className="text-xl">{image.description}</p>
+          <h2 className="text-2xl font-light">{image.title}</h2>
+          <p className="pt-4 text-sm font-extralight">{image.description}</p>
         </div>
       </div>
     </li>
