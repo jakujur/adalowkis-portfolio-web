@@ -80,6 +80,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await authAxios().get(`${API_URL}/painting-collections`);
+  console.log(data);
   const collections = mapCollectionsResponseRoStaticPaths(data.data);
 
   return {
