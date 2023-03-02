@@ -14,7 +14,7 @@ interface DrawingsPageProps {
   paintings: Artwork[];
 }
 
-export default function DrawingsPage({ paintings }: DrawingsPageProps) {
+export default function PaintingsPage({ paintings }: DrawingsPageProps) {
   const [image, setImage] = useState<Artwork>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
