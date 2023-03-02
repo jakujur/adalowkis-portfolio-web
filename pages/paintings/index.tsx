@@ -16,7 +16,14 @@ export default function OthersPage({ collections }: OthersPageProps) {
   return (
     <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
       {collections.map(({ id, coverImage, name }) => (
-        <Link href={`/paintings/collection/${id}`} key={id}>
+        <Link
+          href={{
+            pathname: '/paintings/collection/[collectionId]',
+            query: { collectionId: `${id}` },
+          }}
+          as={`/paintings/collection/${id}`}
+          key={id}
+        >
           <CollectionTile coverImage={coverImage} name={name} />
         </Link>
       ))}
