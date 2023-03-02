@@ -68,6 +68,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { data } = await authAxios().get(
     `${API_URL}/painting-collections/${collectionId}?populate[paintings][populate][0]=media_file`,
   );
+  console.log(data);
   const paintings = mapPaintingResponseToPainting(data?.data?.attributes?.paintings);
 
   return {
