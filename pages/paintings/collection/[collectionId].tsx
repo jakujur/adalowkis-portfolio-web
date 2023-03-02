@@ -18,7 +18,7 @@ export default function PaintingsPage({ paintings }: DrawingsPageProps) {
   const [image, setImage] = useState<Artwork>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
-
+  console.log('INIT PAGE');
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
 
   const handleShowPreview = (img: Artwork) => {
