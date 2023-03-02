@@ -65,6 +65,7 @@ export default function PaintingsPage({ paintings }: DrawingsPageProps) {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const collectionId = ctx?.params?.collectionId;
+  console.log('START');
   const { data } = await authAxios().get(
     `${API_URL}/painting-collections/${collectionId}?populate[paintings][populate][0]=media_file`,
   );
