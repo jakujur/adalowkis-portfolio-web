@@ -73,7 +73,7 @@ interface CollectionStaticPaths {
 }
 
 export const mapCollectionsResponseRoStaticPaths = (collections: any): CollectionStaticPaths[] =>
-  collections.map((collection: any) => ({ params: { collectionId: collection.id.toString() } }));
+  collections?.map((collection: any) => ({ params: { collectionId: collection?.id?.toString() } }));
 
 export const mapArtworkToImageMediaObject = (artwork: Artwork): MediaObject<Image> => ({
   title: artwork.title ?? null,
