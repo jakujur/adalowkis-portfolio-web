@@ -5,7 +5,7 @@ import { Artwork } from '@/types/artwork';
 import { ImageTile } from '@/components/image-tile';
 import { authAxios } from '@/lib/api-helpers';
 import { API_URL } from '@/consts/env-variables';
-import { mapPaintingResponseToPainting } from '@/lib/mappers';
+import { mapCollectionsResponseRoStaticPaths, mapPaintingResponseToPainting } from '@/lib/mappers';
 import { useState } from 'react';
 
 import { ImagePreview } from '@/components/image-preview';
@@ -78,7 +78,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   };
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [],
-  fallback: 'blocking',
-});
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await authAxios().get(`${API_URL}/painting-collections`);
+  const collections = mapCollectionsResponseRoStaticPaths(data.data);
+
+  return {
+    paths: collections,
+    fallback: true,
+  };
+};

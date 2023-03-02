@@ -1,1 +1,2 @@
-export const { STRAPI_ACCESS_TOKEN, API_URL, AWS_IMAGE_SERVICE_URL } = process.env;
+export const API_URL = process.env.API_URL ?? 'https://adalowkis-portfolio-api.herokuapp.com/api';
+export const STRAPI_ACCESS_TOKEN = process.env.STRAPI_ACCESS_TOKEN ?? '';
