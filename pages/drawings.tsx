@@ -11,13 +11,15 @@ import { useState } from 'react';
 import { ImagePreview } from '@/components/image-preview';
 
 interface DrawingsPageProps {
-  drawings: Artwork[];
+  drawings?: Artwork[];
 }
 
 export default function DrawingsPage({ drawings }: DrawingsPageProps) {
   const [image, setImage] = useState<Artwork>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
+
+  if (!drawings) return null;
 
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
 

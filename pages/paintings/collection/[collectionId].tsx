@@ -11,14 +11,16 @@ import { useState } from 'react';
 import { ImagePreview } from '@/components/image-preview';
 
 interface DrawingsPageProps {
-  paintings: Artwork[];
+  paintings?: Artwork[];
 }
 
 export default function PaintingsPage({ paintings }: DrawingsPageProps) {
   const [image, setImage] = useState<Artwork>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
-  console.log('INIT PAGE');
+
+  if (!paintings) return null;
+
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
 
   const handleShowPreview = (img: Artwork) => {
@@ -46,7 +48,7 @@ export default function PaintingsPage({ paintings }: DrawingsPageProps) {
   return (
     <>
       <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
-        {paintings.map((painting) => (
+        {paintings?.map((painting) => (
           <ImageTile key={painting.id} image={painting} onClick={handleShowPreview} />
         ))}
       </ul>
@@ -65,11 +67,9 @@ export default function PaintingsPage({ paintings }: DrawingsPageProps) {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const collectionId = ctx?.params?.collectionId;
-  console.log('START');
   const { data } = await authAxios().get(
     `${API_URL}/painting-collections/${collectionId}?populate[paintings][populate][0]=media_file`,
   );
-  console.log(data);
   const paintings = mapPaintingResponseToPainting(data?.data?.attributes?.paintings);
 
   return {
@@ -82,9 +82,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await authAxios().get(`${API_URL}/painting-collections`);
-  console.log(data);
   const collections = mapCollectionsResponseRoStaticPaths(data.data);
-  console.log(collections);
+
   return {
     paths: collections,
     fallback: true,

@@ -11,6 +11,8 @@ interface OthersPageProps {
 }
 
 export default function OthersPage({ artworks }: OthersPageProps) {
+  if (!artworks) return null;
+
   return artworks.map((artwork) => <div key={artwork.id}>{artwork.title}</div>);
 }
 

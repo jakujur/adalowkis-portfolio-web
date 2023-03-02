@@ -9,10 +9,12 @@ import { CollectionTile } from '@/components/collection-tile';
 import Link from 'next/link';
 
 interface OthersPageProps {
-  collections: Collection[];
+  collections?: Collection[];
 }
 
 export default function OthersPage({ collections }: OthersPageProps) {
+  if (!collections) return null;
+
   return (
     <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
       {collections.map(({ id, coverImage, name }) => (

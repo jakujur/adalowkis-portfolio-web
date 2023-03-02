@@ -9,6 +9,8 @@ interface OthersPageProps {
 }
 
 export default function BioPage({ links }: OthersPageProps) {
+  if (!links) return null;
+
   return (
     <div className="flex flex-col items-center justify-center py-2">
       {JSON.stringify(links, null, '\t')}
