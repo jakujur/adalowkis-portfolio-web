@@ -45,7 +45,7 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
 
   return (
     <>
-      <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
         {drawings.map((drawing) => (
           <ImageTile key={drawing.id} image={drawing} onClick={handleShowPreview} />
         ))}
