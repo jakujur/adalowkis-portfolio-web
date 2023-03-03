@@ -9,14 +9,14 @@ export const useHover = <T extends HTMLElement>() => {
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (refCurrent) {
-      refCurrent.addEventListener('mouseover', handleMouseOver);
-      refCurrent.addEventListener('mouseout', handleMouseOut);
-      return () => {
-        refCurrent.removeEventListener('mouseover', handleMouseOver);
-        refCurrent.removeEventListener('mouseout', handleMouseOut);
-      };
-    }
+    refCurrent?.addEventListener('mouseover', handleMouseOver);
+    refCurrent?.addEventListener('mouseout', handleMouseOut);
+
+    return () => {
+      refCurrent?.removeEventListener('mouseover', handleMouseOver);
+      refCurrent?.removeEventListener('mouseout', handleMouseOut);
+    };
   }, [refCurrent]);
+
   return { ref, isHovered };
 };

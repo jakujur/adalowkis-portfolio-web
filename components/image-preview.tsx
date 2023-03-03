@@ -4,6 +4,8 @@ import { MouseEvent } from 'react';
 import { Artwork } from '@/types/artwork';
 import { useImagePreviewScale } from '@/hooks/use-preview-scale';
 import { useCallbackRef } from '@/hooks/use-callback-ref';
+import { Loader } from '@/components/loader';
+import { useDebouncedLoader } from '@/hooks/use-debounced-loader';
 
 interface ImagePreviewProps {
   image?: Artwork;
@@ -32,6 +34,7 @@ export function ImagePreview({
     useCallbackRef<HTMLImageElement>();
   const { ref: nextButtonRef, handleRef: handleNextButtonRef } = useCallbackRef<HTMLImageElement>();
   const { scale: imageScale } = useImagePreviewScale(imageRef);
+  const { isLoaderVisible } = useDebouncedLoader(250, imageLoading);
 
   const handleOutsideClick = (event: MouseEvent<HTMLElement>) => {
     const shouldPerformAction =
@@ -72,6 +75,12 @@ export function ImagePreview({
             className={`border-8 border-white shadow-2xl ${imageLoading && 'invisible'}`}
             style={{ transform: `scale(${imageScale})` }}
           />
+          {isLoaderVisible && imageLoading && (
+            <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+              <Loader />
+            </div>
+          )}
+
           <p className="absolute bottom-5 left-0 right-0 mx-auto px-3 py-1.5 font-extralight text-sm text-white text-center bg-black w-max">
             {image.title} / {image.description}
           </p>
