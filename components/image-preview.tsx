@@ -47,7 +47,7 @@ export function ImagePreview({
   const { scale: imageScale } = useImagePreviewScale(imageRef);
   const { isLoaderVisible } = useDebouncedLoader(250, imageLoading);
 
-  const isVideo = format === 'video';
+  const isVideo = format?.includes('video');
 
   const handleOutsideClick = (event: MouseEvent<HTMLElement>) => {
     const shouldPerformAction =
@@ -74,9 +74,15 @@ export function ImagePreview({
         <div className="p-4 border-b-4 border-l-4  border-black inline-block rotate-45" />
       </div>
       {isVideo ? (
-        <video ref={handleImageRef} width="100%" autoPlay muted>
-          <source src={image.url} type="video/mp4" />
-        </video>
+        <div
+          className="border-8 border-white shadow-2xl"
+          style={{ transform: `scale(${imageScale})` }}
+        >
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video ref={handleImageRef} controls>
+            <source src={image.url} type={format} />
+          </video>
+        </div>
       ) : (
         <div>
           <Image

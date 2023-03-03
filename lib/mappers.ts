@@ -31,7 +31,7 @@ const mapVideoResponseToArtwork = (artwork: any): Artwork => ({
   id: artwork.id,
   description: artwork.attributes?.description ?? null,
   title: artwork.attributes?.name ?? null,
-  format: 'video',
+  format: artwork.attributes?.media_file?.data?.attributes?.mime ?? null,
   coverImage: {
     url: artwork.attributes?.cover_image?.data?.attributes?.formats?.small?.url ?? null,
     height: artwork.attributes?.cover_image?.data?.attributes?.formats?.small?.height ?? null,
