@@ -75,11 +75,11 @@ export function ImagePreview({
       </div>
       {isVideo ? (
         <div
-          className="border-8 border-white shadow-2xl"
+          className={`border-8 border-white shadow-2xl ${imageLoading && 'invisible'}`}
           style={{ transform: `scale(${imageScale})` }}
         >
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <video ref={handleImageRef} controls>
+          <video onLoadedData={onLoadingComplete} ref={handleImageRef} controls>
             <source src={image.url} type={format} />
           </video>
         </div>

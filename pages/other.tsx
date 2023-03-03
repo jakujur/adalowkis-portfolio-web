@@ -28,20 +28,25 @@ export default function OthersPage({ drawings }: OthersPageProps) {
   };
 
   const handleNextClick = () => {
-    setImageLoading(true);
     const index = drawings.findIndex(({ id }) => id === image?.id);
     const nextIndex = index + 1;
     const nextImage = drawings[nextIndex] ?? drawings[0];
-    setImage(nextImage);
+    if (nextImage !== image) {
+      setImage(nextImage);
+      setImageLoading(true);
+    }
   };
 
   const handlePrevClick = () => {
-    setImageLoading(true);
     const index = drawings.findIndex(({ id }) => id === image?.id);
     const prevIndex = index - 1;
     const prevImage = drawings[prevIndex] ?? drawings[drawings.length - 1];
-    setImage(prevImage);
+    if (prevImage !== image) {
+      setImage(prevImage);
+      setImageLoading(true);
+    }
   };
+
   return (
     <>
       <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">

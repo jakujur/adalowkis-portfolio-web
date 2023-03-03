@@ -33,19 +33,23 @@ export default function PaintingsPage({ drawings }: DrawingsPageProps) {
   };
 
   const handleNextClick = () => {
-    setImageLoading(true);
     const index = drawings.findIndex(({ id }) => id === image?.id);
     const nextIndex = index + 1;
     const nextImage = drawings[nextIndex] ?? drawings[0];
-    setImage(nextImage);
+    if (nextImage !== image) {
+      setImage(nextImage);
+      setImageLoading(true);
+    }
   };
 
   const handlePrevClick = () => {
-    setImageLoading(true);
     const index = drawings.findIndex(({ id }) => id === image?.id);
     const prevIndex = index - 1;
     const prevImage = drawings[prevIndex] ?? drawings[drawings.length - 1];
-    setImage(prevImage);
+    if (prevImage !== image) {
+      setImage(prevImage);
+      setImageLoading(true);
+    }
   };
 
   return (
