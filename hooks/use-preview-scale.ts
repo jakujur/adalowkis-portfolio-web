@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useImagePreviewScale = (ref?: HTMLImageElement) => {
+export const useImagePreviewScale = (ref?: HTMLElement | null) => {
   const [scale, setScale] = useState(1);
 
   useEffect(() => {

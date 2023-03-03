@@ -1,27 +1,36 @@
 import { Portal } from '@/components/portal';
 import Image from 'next/image';
 import { MouseEvent } from 'react';
-import { Artwork } from '@/types/artwork';
 import { useImagePreviewScale } from '@/hooks/use-preview-scale';
 import { useCallbackRef } from '@/hooks/use-callback-ref';
 import { Loader } from '@/components/loader';
 import { useDebouncedLoader } from '@/hooks/use-debounced-loader';
+import { ArtworkFormat } from '@/types/artwork';
+import { Image as ImageType } from '@/types/image';
 
 interface ImagePreviewProps {
-  image?: Artwork;
+  image: ImageType;
+  title: string;
+  description: string;
   visible: boolean;
   onClickOutside: () => void;
   onNextClick?: () => void;
   onPreviousClick?: () => void;
   onLoadingComplete?: () => void;
   imageLoading?: boolean;
+  format?: ArtworkFormat;
 }
 
-const shouldHandleClickOutsideElement = (event: MouseEvent<HTMLElement>, ref?: HTMLElement) =>
-  ref && !ref.contains(event.target as HTMLElement);
+const shouldHandleClickOutsideElement = (
+  event: MouseEvent<HTMLElement>,
+  ref?: HTMLElement | null,
+) => ref && !ref.contains(event.target as HTMLElement);
 
 export function ImagePreview({
   image,
+  title,
+  description,
+  format,
   visible,
   onClickOutside,
   onPreviousClick,
@@ -29,12 +38,16 @@ export function ImagePreview({
   onLoadingComplete,
   imageLoading,
 }: ImagePreviewProps) {
-  const { ref: imageRef, handleRef: handleImageRef } = useCallbackRef<HTMLImageElement>();
+  const { ref: imageRef, handleRef: handleImageRef } = useCallbackRef<
+    HTMLImageElement | HTMLVideoElement | null
+  >();
   const { ref: previousButtonRef, handleRef: handlePreviousButtonRef } =
     useCallbackRef<HTMLImageElement>();
   const { ref: nextButtonRef, handleRef: handleNextButtonRef } = useCallbackRef<HTMLImageElement>();
   const { scale: imageScale } = useImagePreviewScale(imageRef);
   const { isLoaderVisible } = useDebouncedLoader(250, imageLoading);
+
+  const isVideo = format === 'video';
 
   const handleOutsideClick = (event: MouseEvent<HTMLElement>) => {
     const shouldPerformAction =
@@ -48,6 +61,8 @@ export function ImagePreview({
     return null;
   };
 
+  if (!image) return null;
+
   return (
     <Portal open={visible} onClickOutside={handleOutsideClick}>
       <div
@@ -58,16 +73,18 @@ export function ImagePreview({
       >
         <div className="p-4 border-b-4 border-l-4  border-black inline-block rotate-45" />
       </div>
-      {image?.image.large.url && (
+      {isVideo ? (
+        <video ref={handleImageRef} width="100%" autoPlay muted>
+          <source src={image.url} type="video/mp4" />
+        </video>
+      ) : (
         <div>
           <Image
             ref={handleImageRef}
-            src={image.image.large.url}
-            placeholder="blur"
-            blurDataURL={image.image.small.url}
-            width={image.image.large.width}
-            height={image.image.large.height}
-            alt={image.title}
+            src={image.url}
+            width={image.width}
+            height={image.height}
+            alt={title}
             sizes="(max-width: 768px) 50vw,
                 (max-width: 1200px) 75vw,
                 100vw"
@@ -80,12 +97,11 @@ export function ImagePreview({
               <Loader />
             </div>
           )}
-
-          <p className="absolute bottom-5 left-0 right-0 mx-auto px-3 py-1.5 font-extralight text-sm text-white text-center bg-black w-max">
-            {image.title} / {image.description}
-          </p>
         </div>
       )}
+      <p className="absolute bottom-5 left-0 right-0 mx-auto px-3 py-1.5 font-extralight text-sm text-white text-center bg-black w-max">
+        {title} / {description}
+      </p>
       <div
         ref={handleNextButtonRef}
         onClick={onNextClick}

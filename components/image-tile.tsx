@@ -1,21 +1,24 @@
 import Image from 'next/image';
-import { Artwork } from '@/types/artwork';
+import { Image as ImageType } from '@/types/image';
 
 interface ImageTileProps {
-  image: Artwork;
-  onClick: (args: Artwork) => void;
+  id: string;
+  image: ImageType;
+  title: string;
+  description: string;
+  onClick: (id: string) => void;
   priority?: boolean;
 }
 
-export function ImageTile({ image, onClick, priority }: ImageTileProps) {
-  const handleClick = () => onClick(image);
+export function ImageTile({ id, image, title, description, onClick, priority }: ImageTileProps) {
+  const handleClick = () => onClick(id);
 
   return (
     <li className="group relative w-full aspect-square" onClick={handleClick} role="presentation">
-      {image.image.small.url && (
+      {image?.url && (
         <Image
-          src={image.image.small.url}
-          alt={image.title}
+          src={image.url}
+          alt={title}
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
@@ -26,8 +29,8 @@ export function ImageTile({ image, onClick, priority }: ImageTileProps) {
       )}
       <div className="p-2 absolute top-0 bottom-0 left-0 right-0 h-full w-full bg-black bg-opacity-60 cursor-pointer invisible group-hover:visible">
         <div className="p-4 h-full border-2 border-white text-white text-xl">
-          <h2 className="text-2xl font-light">{image.title}</h2>
-          <p className="pt-4 text-sm font-extralight">{image.description}</p>
+          <h2 className="text-2xl font-light">{title}</h2>
+          <p className="pt-4 text-sm font-extralight">{description}</p>
         </div>
       </div>
     </li>

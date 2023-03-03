@@ -23,9 +23,9 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
 
   const togglePreview = () => setPreviewVisible((prevState) => !prevState);
 
-  const handleShowPreview = (img: Artwork) => {
+  const handleShowPreview = (id: string) => {
     setImageLoading(true);
-    setImage(img);
+    setImage(drawings.find((drawing) => drawing.id === id));
     togglePreview();
   };
 
@@ -49,18 +49,30 @@ export default function DrawingsPage({ drawings }: DrawingsPageProps) {
     <>
       <ul className="grid  gap-4 justify-center p-[initial] grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
         {drawings.map((drawing) => (
-          <ImageTile key={drawing.id} image={drawing} onClick={handleShowPreview} />
+          <ImageTile
+            key={drawing.id}
+            id={drawing.id}
+            image={drawing.coverImage}
+            title={drawing.title}
+            description={drawing.description}
+            onClick={handleShowPreview}
+          />
         ))}
       </ul>
-      <ImagePreview
-        image={image}
-        visible={previewVisible}
-        onClickOutside={togglePreview}
-        onNextClick={handleNextClick}
-        onPreviousClick={handlePrevClick}
-        onLoadingComplete={() => setImageLoading(false)}
-        imageLoading={imageLoading}
-      />
+      {image && (
+        <ImagePreview
+          image={image?.previewImage}
+          title={image?.title}
+          format={image?.format}
+          description={image?.description}
+          visible={previewVisible}
+          onClickOutside={togglePreview}
+          onNextClick={handleNextClick}
+          onPreviousClick={handlePrevClick}
+          onLoadingComplete={() => setImageLoading(false)}
+          imageLoading={imageLoading}
+        />
+      )}
     </>
   );
 }
