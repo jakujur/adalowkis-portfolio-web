@@ -3,19 +3,16 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
 import { authAxios } from '@/utils/api';
 import { API_URL } from '@/consts/env-variables';
+import { Bio } from '@/types/bio';
 
 interface OthersPageProps {
-  bio: any;
+  bio: Bio;
 }
 
 export default function BioPage({ bio }: OthersPageProps) {
   if (!bio) return null;
 
-  return (
-    <div className="flex flex-col items-center justify-center py-2">
-      {JSON.stringify(bio, null, '\t')}
-    </div>
-  );
+  return <div className="flex flex-col items-center justify-center py-2">{bio.bio}</div>;
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
