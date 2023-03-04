@@ -1,7 +1,7 @@
-import { extractLocale } from '@/lib/translation-helpers';
+import { extractLocale } from '@/utils/translation';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
-import { authAxios } from '@/lib/api-helpers';
+import { authAxios } from '@/utils/api';
 import { API_URL } from '@/consts/env-variables';
 
 interface OthersPageProps {

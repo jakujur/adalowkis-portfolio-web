@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
 
 import React from 'react';
-import { extractLocale } from 'lib/translation-helpers';
+import { extractLocale } from '@/utils/translation';
 import Image from 'next/image';
 
 export default function Home() {

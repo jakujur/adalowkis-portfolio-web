@@ -1,10 +1,10 @@
 import { Portal } from '@/components/portal';
 import Image from 'next/image';
 import { MouseEvent } from 'react';
-import { useImagePreviewScale } from '@/hooks/use-preview-scale';
+import { useImagePreviewScale } from '@/features/gallery/hooks/use-preview-scale';
 import { useCallbackRef } from '@/hooks/use-callback-ref';
-import { Loader } from '@/components/loader';
-import { useDebouncedLoader } from '@/hooks/use-debounced-loader';
+import { Loader } from '@/components/loader/loader';
+import { useDebouncedLoader } from '@/features/gallery/hooks/use-debounced-loader';
 import { ArtworkFormat } from '@/types/artwork';
 import { Image as ImageType } from '@/types/image';
 

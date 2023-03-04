@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { useHover } from '@/hooks/use-hover';
+import { useHover } from '@/components/button/hooks/use-hover';
 
 interface ButtonProps {
   onClick?: () => void;

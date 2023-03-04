@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
 import React from 'react';
 import '@/styles/globals.css';
-import { Layout } from '@/components/layout';
+import { Layout } from '@/features/layout';
 import { useRouter } from 'next/router';
 import { NavigationRouteName } from '@/consts/navigation-routes';
 
