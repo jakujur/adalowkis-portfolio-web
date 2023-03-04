@@ -1,12 +1,11 @@
 import { Portal } from '@/components/portal';
 import Image from 'next/image';
 import { MouseEvent } from 'react';
-import { useImagePreviewScale } from '@/features/gallery/hooks/use-preview-scale';
 import { useCallbackRef } from '@/hooks/use-callback-ref';
 import { Loader } from '@/components/loader/loader';
-import { useDebouncedLoader } from '@/features/gallery/hooks/use-debounced-loader';
 import { ArtworkFormat } from '@/types/artwork';
 import { Image as ImageType } from '@/types/image';
+import { useDebouncedLoader, useImagePreviewScale } from './hooks';
 
 interface ImagePreviewProps {
   image: ImageType;

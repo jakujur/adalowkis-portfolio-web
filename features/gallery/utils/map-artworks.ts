@@ -1,5 +1,4 @@
 import { Artwork } from '@/types/artwork';
-import { Collection } from '@/types/collection';
 
 const mapImageResponseToArtwork = (artwork: any): Artwork => ({
   id: artwork.id,
@@ -45,53 +44,10 @@ const mapVideoResponseToArtwork = (artwork: any): Artwork => ({
   },
 });
 
-export const mapArtworkResponseToArtwork = (artworks: any): Artwork[] =>
+export const mapArtworksResponseToArtworks = (artworks: any): Artwork[] =>
   artworks?.map((artwork: any) => {
     if (artwork.attributes?.media_file?.data?.attributes?.mime?.includes('video')) {
       return mapVideoResponseToArtwork(artwork);
     }
     return mapImageResponseToArtwork(artwork);
   });
-
-export const mapPaintingsResponseToPaintings = (paintings: any): Artwork[] =>
-  paintings?.map((painting: any) => ({
-    id: painting.id,
-    description: painting.description ?? null,
-    title: painting.name ?? null,
-    coverImage: {
-      url: painting?.media_file?.data?.attributes?.formats?.small?.url ?? null,
-      height: painting?.media_file?.data?.attributes?.formats?.small?.height ?? null,
-      width: painting?.media_file?.data?.attributes?.formats?.small?.width ?? null,
-    },
-    previewImage: {
-      url:
-        painting?.media_file?.data?.attributes?.formats?.large?.url ??
-        painting?.media_file?.data?.attributes?.formats?.medium?.url ??
-        null,
-      height:
-        painting?.media_file?.data?.attributes?.formats?.large?.height ??
-        painting?.media_file?.data?.attributes?.formats?.medium?.height ??
-        null,
-      width:
-        painting?.media_file?.data?.attributes?.formats?.large?.width ??
-        painting?.media_file?.data?.attributes?.formats?.medium?.width ??
-        null,
-    },
-  }));
-
-export const mapCollectionResponseToCollection = (collections: any): Collection[] =>
-  collections.map((collection: any) => ({
-    id: collection.id ?? null,
-    name: collection.attributes?.name ?? null,
-    description: collection.attributes?.description ?? null,
-    coverImage: collection.attributes?.cover_image?.data?.attributes?.formats?.small?.url ?? null,
-  }));
-
-interface CollectionStaticPaths {
-  params: {
-    collectionId: string;
-  };
-}
-
-export const mapCollectionsResponseRoStaticPaths = (collections: any): CollectionStaticPaths[] =>
-  collections?.map(({ id }: { id: string }) => ({ params: { collectionId: id?.toString() } }));

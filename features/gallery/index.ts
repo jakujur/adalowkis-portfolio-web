@@ -1,2 +1,2 @@
-export * from './hooks';
 export { GalleryView } from './gallery-view';
+export { getArtworksCollection, getArtworks } from 'features/gallery/api';
